@@ -4,6 +4,7 @@ import managementSystem.gui.LoginManager;
 import managementSystem.user.User;
 
 import javax.swing.*;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ManagementSystem {
-    private final Connect connection;
+    private final Connection connection;
     private final Map<String, Integer> goods;
     private final Map<String, User> admins;
     private String currentAdminLogin;
 
     public ManagementSystem() {
-        connection = new Connect("store");
+        connection = DatabaseConnection.getConnection();
         goods = new HashMap<>();
         admins = new HashMap<>();
 
@@ -53,7 +54,7 @@ public class ManagementSystem {
     public void addAdmin(String adminLogin, String adminPassword) {
         String sql = "INSERT INTO admins (login, password) VALUES (?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, adminLogin);
             preparedStatement.setString(2, adminPassword);
@@ -69,7 +70,7 @@ public class ManagementSystem {
     public void removeAdmin(String adminLogin) {
         String sql = "DELETE FROM admins WHERE login=?";
 
-        try (PreparedStatement preparedStatement = connection.connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, adminLogin);
             preparedStatement.executeUpdate();
@@ -84,7 +85,7 @@ public class ManagementSystem {
     public void updateAdminPassword(String login, String password) {
         String sql = "UPDATE admins SET password=? WHERE login=?";
 
-        try (PreparedStatement preparedStatement = connection.connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, password);
             preparedStatement.setString(2, login);
@@ -100,7 +101,7 @@ public class ManagementSystem {
     public void updateAdminLogin(String oldLogin, String newLogin) {
         String sql = "UPDATE admins SET login=? WHERE login=?";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, newLogin);
             preparedStatement.setString(2, oldLogin);
@@ -129,7 +130,7 @@ public class ManagementSystem {
         int initialQuantity = goods.get(productName);
         String sql = "UPDATE goods SET quantity=? WHERE name=?";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             if (type.equals("supply")) {
                 preparedStatement.setInt(1, quantity + initialQuantity);
@@ -150,7 +151,7 @@ public class ManagementSystem {
     public void insertProduct(String productName, int quantity) {
         String sql = "INSERT INTO goods (name, quantity) VALUES (?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, productName);
             preparedStatement.setInt(2, quantity);
@@ -167,7 +168,7 @@ public class ManagementSystem {
     private void fluctuate(String productName, int quantity, String type, boolean isNew) {
         String sql = "INSERT INTO fluctuation (goodID, activity, amount) VALUES (?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, productID(productName));
             preparedStatement.setString(2, type);
@@ -202,7 +203,7 @@ public class ManagementSystem {
         int ID = -1;
         String sql = "SELECT * FROM goods WHERE name='" + productName + "'";
 
-        try (PreparedStatement preparedStatement = connection.connection().prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.executeQuery();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -220,7 +221,7 @@ public class ManagementSystem {
         try {
 
             String sql = "SELECT * FROM goods";
-            PreparedStatement preparedStatement = connection.connection().prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeQuery();
 
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -230,7 +231,7 @@ public class ManagementSystem {
             }
 
             sql = "SELECT * FROM admins";
-            preparedStatement = connection.connection().prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeQuery();
 
             resultSet = preparedStatement.getResultSet();
