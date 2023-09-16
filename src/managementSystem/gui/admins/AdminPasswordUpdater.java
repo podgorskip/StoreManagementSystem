@@ -7,20 +7,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that allows for updating the logged administrator's password.
+ */
 public class AdminPasswordUpdater extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JPasswordField newPasswordField, newPasswordRepeatField;
     private JButton confirmationButton, backButton;
 
+    /**
+     * Constructs an AdminPasswordUpdater object.
+     * @param managementSystem
+     */
     public AdminPasswordUpdater(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the AdminPasswordUpdater form.
+     */
     public void showAdminPasswordUpdater() {
         setVisible(true);
     }
 
+    /**
+     * Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String password1 = new String(newPasswordField.getPassword());
@@ -47,6 +61,9 @@ public class AdminPasswordUpdater extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initialized the AdminPasswordUpdater form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
@@ -102,10 +119,19 @@ public class AdminPasswordUpdater extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Checks whether provided passwords are not equal.
+     * @param password1
+     * @param password2
+     * @return true if the passwords are not equal, false otherwise
+     */
     private boolean arePasswordsNotMatching(String password1, String password2) {
         return !password1.equals(password2);
     }
 
+    /**
+     * Resets the password fields.
+     */
     private void resetPasswordFields() {
         newPasswordField.setText("");
         newPasswordRepeatField.setText("");
