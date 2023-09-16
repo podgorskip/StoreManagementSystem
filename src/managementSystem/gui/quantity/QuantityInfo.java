@@ -7,20 +7,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class to manage view of available goods.
+ */
 public class QuantityInfo extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JButton confirmButton, showAllButton, clearButton, backButton;
     private JTextField quantityInfoField, productNameField;
 
+    /**
+     * Constructs a QuantityInfo object.
+     * @param managementSystem an object that handles business logic
+     */
     public QuantityInfo(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the window.
+     */
     public void showQuantityInfo() {
         setVisible(true);
     }
 
+    /**
+     * Checks a user choice to which action perform and redirects to other components.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String productName = productNameField.getText().trim().toLowerCase();
@@ -47,6 +61,9 @@ public class QuantityInfo extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the quantity info form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
