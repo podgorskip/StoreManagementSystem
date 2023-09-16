@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * A Singleton class that is responsible for establishing a connection with a database.
+ */
 public class DatabaseConnection {
     private static Connection connection;
 
@@ -22,6 +25,10 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Returns a single connection object.
+     * @return Connection object with a connection established
+     */
     public static Connection getConnection() {
         return connection;
     }
