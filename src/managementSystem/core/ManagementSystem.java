@@ -11,12 +11,18 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class that handle business logic, communicating with a database and UI.
+ */
 public class ManagementSystem {
     private final Connection connection;
     private final Map<String, Integer> goods;
     private final Map<String, User> admins;
     private String currentAdminLogin;
 
+    /**
+     * Constructs a ManagementSystem object.
+     */
     public ManagementSystem() {
         connection = DatabaseConnection.getConnection();
         goods = new HashMap<>();
@@ -25,6 +31,9 @@ public class ManagementSystem {
         restoreFromDatabase();
     }
 
+    /**
+     * Starts the whole application.
+     */
     public void startLogin() {
         SwingUtilities.invokeLater(() -> {
             LoginManager loginManager = new LoginManager(this);
@@ -34,23 +43,47 @@ public class ManagementSystem {
 
     // Administrators management
 
+    /**
+     * Returns a login of the currently logged admin.
+     * @return a login of the currently logged admin
+     */
     public String getCurrentAdminLogin() {
         return currentAdminLogin;
     }
 
+    /**
+     * Sets a login of the currently logged admin.
+     * @param login administrator's login
+     */
     public void setCurrentAdminLogin(String login) {
         currentAdminLogin = login;
     }
 
+    /**
+     * Checks whether the login is available.
+     * @param login login to be checked
+     * @return true if an admin already has this login, false otherwise
+     */
     public boolean isAdminAvailable(String login) {
         return admins.get(login) != null;
     }
 
+    /**
+     * Validates password with the linked admin account.
+     * @param login login of the admin whose password is checked
+     * @param password password to be checked
+     * @return true if logged successfully, false otherwise
+     */
     public boolean validatePassword(String login, String password) {
         User user = admins.get(login);
         return user != null && user.logIn(login, password);
     }
 
+    /**
+     * Adds an admin to the database and the local admins variable.
+     * @param adminLogin login of a new admin
+     * @param adminPassword password of a new admin
+     */
     public void addAdmin(String adminLogin, String adminPassword) {
         String sql = "INSERT INTO admins (login, password) VALUES (?, ?)";
 
@@ -67,6 +100,10 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Removes an admin from database and the local admins variable.
+     * @param adminLogin login of the admin to be removed
+     */
     public void removeAdmin(String adminLogin) {
         String sql = "DELETE FROM admins WHERE login=?";
 
@@ -82,6 +119,11 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Updates a password of an admin with the provided login.
+     * @param login login of an admin to have a password updated
+     * @param password a new password
+     */
     public void updateAdminPassword(String login, String password) {
         String sql = "UPDATE admins SET password=? WHERE login=?";
 
@@ -98,6 +140,11 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Updates a login of an admin with the provided login.
+     * @param oldLogin an administrator's old login
+     * @param newLogin an administrator's new login
+     */
     public void updateAdminLogin(String oldLogin, String newLogin) {
         String sql = "UPDATE admins SET login=? WHERE login=?";
 
@@ -118,14 +165,31 @@ public class ManagementSystem {
 
     // Products management
 
+    /**
+     * Returns a quantity of the provided product name
+     * @param name product name to have a quantity checked
+     * @return quantity of the product
+     */
     public int getQuantity(String name) {
         return goods.get(name);
     }
 
+    /**
+     * Checks whether a product already exists in the store.
+     * @param productName a product name of which availability is checked
+     * @return true if already exists, false otherwise
+     */
     public boolean isProductAvailable(String productName) {
         return goods.get(productName) != null;
     }
 
+    /**
+     * Updates quantity of a product in a database.
+     * @param productName a product name to have the quantity updated
+     * @param quantity an amount which should be supplied/withdrawn
+     * @param type supply if the product should be restocked, withdrawal
+     *             if one should be withdrawn
+     */
     public void updateQuantity(String productName, int quantity, String type) {
         int initialQuantity = goods.get(productName);
         String sql = "UPDATE goods SET quantity=? WHERE name=?";
@@ -148,6 +212,11 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Adds a new product to the database.
+     * @param productName a new product name
+     * @param quantity a quantity how much should be stocked
+     */
     public void insertProduct(String productName, int quantity) {
         String sql = "INSERT INTO goods (name, quantity) VALUES (?, ?)";
 
@@ -165,6 +234,13 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Notes all the changes made with the product quantity in a database.
+     * @param productName a product name of which the quantity was change
+     * @param quantity a quantity of supply/withdrawal
+     * @param type manipulation type - supply/withdrawal
+     * @param isNew flag is a product is newly-added
+     */
     private void fluctuate(String productName, int quantity, String type, boolean isNew) {
         String sql = "INSERT INTO fluctuation (goodID, activity, amount) VALUES (?, ?, ?)";
 
@@ -187,6 +263,12 @@ public class ManagementSystem {
         }
     }
 
+    /**
+     * Returns an array containing all products names and quantities.
+     * Index 0 contains all the product names.
+     * Index 1 contains all the quantities.
+     * @return an array with information about products
+     */
     public String[] productsInfo() {
         StringBuilder productNames = new StringBuilder();
         StringBuilder productQuantities = new StringBuilder();
@@ -199,6 +281,11 @@ public class ManagementSystem {
         return new String[] { productNames.toString(), productQuantities.toString() };
     }
 
+    /**
+     * Returns an ID of a product with the specified name.
+     * @param productName a name of a product to have the ID checked
+     * @return product's ID
+     */
     private int productID(String productName) {
         int ID = -1;
         String sql = "SELECT * FROM goods WHERE name='" + productName + "'";
@@ -217,6 +304,9 @@ public class ManagementSystem {
         return ID;
     }
 
+    /**
+     * Restores data from the database, initializing admins and goods class fields.
+     */
     private void restoreFromDatabase() {
         try {
 
