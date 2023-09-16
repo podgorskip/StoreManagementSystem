@@ -7,19 +7,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that handles activities available for administrators, including adding/removing
+ * admins, updating administrator's logins and passwords..
+ */
 public class AdministratorSettings extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JButton addAdminButton, removeAdminButton, updateAdminPassword, updateAdminLogin, backButton;
 
+    /**
+     * Constructs an AdministratorSettings object.
+     * @param managementSystem an object that handles business logic
+     */
     public AdministratorSettings(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the AdministratorSettings form.
+     */
     public void showAdministratorSettings() {
         setVisible(true);
     }
 
+    /** Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == addAdminButton) {
@@ -49,6 +63,9 @@ public class AdministratorSettings extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the AdministratorSettings form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
