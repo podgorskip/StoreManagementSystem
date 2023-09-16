@@ -9,19 +9,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that allows for choosing an activity to perform among adding/withdrawing a product,
+ * checking products quantity, administrative settings.
+ */
 public class ActivityManager extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JButton addWithdrawButton, checkQuantityButton, backButton, administratorSettingsButton;
 
+    /**
+     * Constructs an ActivityManager object.
+     * @param managementSystem an object that handles business logic
+     */
     public ActivityManager(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the ActivityManager form.
+     */
     public void showActivityManager() {
         setVisible(true);
     }
 
+    /**
+     * Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == addWithdrawButton) {
@@ -47,7 +62,9 @@ public class ActivityManager extends JFrame implements ActionListener {
         }
     }
 
-
+    /**
+     * Initializes the ActivityManager form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
