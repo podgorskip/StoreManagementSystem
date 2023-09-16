@@ -7,20 +7,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that allows for updating administrator's logins.
+ */
 public class AdminLoginUpdater extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JTextField newLoginField;
     private JButton confirmationButton, backButton;
 
+    /**
+     * Constructs an AdminLoginUpdater object.
+     * @param managementSystem
+     */
     public AdminLoginUpdater(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the AdminLoginUpdater form.
+     */
     public void showAdminLoginUpdater() {
         setVisible(true);
     }
 
+    /**
+     * Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == confirmationButton) {
@@ -45,6 +59,9 @@ public class AdminLoginUpdater extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the AdminLoginUpdater form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateContainerGaps(true);
@@ -89,6 +106,9 @@ public class AdminLoginUpdater extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Resets the login field.
+     */
     private void resetLoginField() {
         newLoginField.setText("");
     }
