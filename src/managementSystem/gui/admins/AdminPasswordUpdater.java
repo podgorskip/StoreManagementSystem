@@ -17,7 +17,7 @@ public class AdminPasswordUpdater extends JFrame implements ActionListener {
 
     /**
      * Constructs an AdminPasswordUpdater object.
-     * @param managementSystem
+     * @param managementSystem an object that handles business logic
      */
     public AdminPasswordUpdater(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
