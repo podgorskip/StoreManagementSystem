@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that allows for removing administrators.
+ */
 public class AdminRemover extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JTextField loginField;
@@ -14,14 +17,26 @@ public class AdminRemover extends JFrame implements ActionListener {
     private JButton confirmationButton, clearButton, backButton;
     private int loginAttempts = 3;
 
+    /**
+     * Constructs an AdminRemover object.
+     * @param managementSystem an object that handles business logic
+     */
     public AdminRemover(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
+
+    /**
+     * Displays the AdminRemover form.
+     */
     public void showAdminRemover() {
         setVisible(true);
     }
 
+    /**
+     * Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String login = loginField.getText().trim();
@@ -69,6 +84,9 @@ public class AdminRemover extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the AdminRemover form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
@@ -128,11 +146,17 @@ public class AdminRemover extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Resets all the fields.
+     */
     private void resetFields() {
         loginField.setText("");
         passwordField.setText("");
     }
 
+    /**
+     * Resets the password field.
+     */
     private void resetPasswordField() {
         passwordField.setText("");
     }
