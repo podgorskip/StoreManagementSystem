@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that handles logging into the system logic.
+ */
 public class LoginManager extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     JTextField loginField;
@@ -14,15 +17,27 @@ public class LoginManager extends JFrame implements ActionListener {
     JButton loginButton, clearButton;
     private int loginAttempts = 3;
 
+    /**
+     * Constructs a LoginManager object.
+     * @param managementSystem an object that handles business logic
+     */
     public LoginManager(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the login form.
+     */
     public void showLoginManager() {
         setVisible(true);
     }
 
+    /**
+     * Checks correctness of data provided by a user. If password is correct displays an activity manager.
+     * Exits program after 3 unsuccessful attempts to provide the password.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String login = loginField.getText().trim();
@@ -59,6 +74,9 @@ public class LoginManager extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the login form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
