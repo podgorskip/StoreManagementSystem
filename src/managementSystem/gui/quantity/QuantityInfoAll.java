@@ -5,20 +5,33 @@ import managementSystem.core.ManagementSystem;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A class that displays information about all the products in a database.
+ */
 public class QuantityInfoAll extends JFrame {
     private final ManagementSystem managementSystem;
     JTextArea productNameArea, productQuantityArea;
     JButton backButton;
 
+    /**
+     * Constructs a QuantityInfoAll object.
+     * @param managementSystem
+     */
     public QuantityInfoAll(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the products' information.
+     */
     public void showAllQuantityInfo() {
         setVisible(true);
     }
 
+    /**
+     * Initializes the window to display product information.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
