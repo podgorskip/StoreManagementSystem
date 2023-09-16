@@ -7,21 +7,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A class that allows for creating a new administrators.
+ */
 public class AdminCreator extends JFrame implements ActionListener {
     private final ManagementSystem managementSystem;
     private JTextField loginField;
     private JPasswordField passwordField, passwordRepeatField;
     private JButton confirmationButton, clearButton, backButton;
 
+    /**
+     * Creates an AdminCreator object.
+     * @param managementSystem an object that handles business logic
+     */
     public AdminCreator(ManagementSystem managementSystem) {
         this.managementSystem = managementSystem;
         initForm();
     }
 
+    /**
+     * Displays the AdminCreator form.
+     */
     public void showAdminCreator() {
         setVisible(true);
     }
 
+    /**
+     * Handles operations chosen by a user via provided buttons.
+     * @param event the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String login = loginField.getText().trim();
@@ -64,6 +78,9 @@ public class AdminCreator extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Initializes the AdminCreator form.
+     */
     private void initForm() {
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
@@ -130,15 +147,27 @@ public class AdminCreator extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Checks if provided passwords are not equal.
+     * @param password1
+     * @param password2
+     * @return true if are not equal, false otherwise
+     */
     private boolean arePasswordsNotMatching(String password1, String password2) {
         return !password1.equals(password2);
     }
 
+    /**
+     * Resets the password field.
+     */
     private void resetPasswordFields() {
         passwordField.setText("");
         passwordRepeatField.setText("");
     }
 
+    /**
+     * Resets all the fields.
+     */
     private void resetFields() {
         loginField.setText("");
         passwordField.setText("");
